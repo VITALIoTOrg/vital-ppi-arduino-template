@@ -1,9 +1,9 @@
-# vital-ppi-arduino-env
+# vital-ppi-arduino-template
 
 * Author: Lorenzo Bracco
-* Summary: This is the VITAL PPI for Arduino Mega 2560 and DHT11 sensor (using WiFi Shield)
+* Summary: This is the template for VITAL PPIs based on Arduino Mega (using WiFi Shield)
 * Target Project: VITAL (<http://vital-iot.eu>)
-* Source: <http://gitlab.atosresearch.eu/vital-iot/vital-ppi-arduino-env.git>
+* Source: <http://gitlab.atosresearch.eu/vital-iot/vital-ppi-arduino-template.git>
 
 ## System requirements
 
@@ -18,14 +18,10 @@ Follow installation instructions of Git and Arduino software.
 
 1. Checkout the code from the repository:
 
-        git clone http://gitlab.atosresearch.eu/vital-iot/vital-ppi-arduino-env.git
+        git clone http://gitlab.atosresearch.eu/vital-iot/vital-ppi-arduino-template.git
 
-3. Open the sketch in Arduino and add possibly missing libraries (WiFi, DHT sensor library, Time).
+3. Open the sketch in Arduino and add possibly missing libraries (WiFi, Time).
 
-4. Modify the configuration in the sketch: WiFi network parameters, listening port number and DDNS parameters.
+4. Modify and complete the sketch for your application.
 5. Compile the sketch and upload the program to Arduino.
-
-## Access the module
-
-The Arduino PPI is available at the hostname given by the DDNS service and chosen port.
 
