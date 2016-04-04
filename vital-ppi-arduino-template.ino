@@ -32,6 +32,7 @@ void sendNTPpacket(IPAddress& address);
 void printWifiStatus();
 
 // Table of strings (to keep in flash memory)
+// TODO: change to your Wi-Fi network SSID and password
 const char string0[] PROGMEM = "MyWiFiSSID"; // Wi-fi network SSID
 const char string1[] PROGMEM = "MyWiFiPassword"; // Wi-fi password
 
@@ -45,7 +46,7 @@ const char endp4[] PROGMEM = OBSERVATION; // Observation endpoint path
 
 const char* const string_table[] PROGMEM = { string0, string1, string2, string3 };
 const char* const endp_table[] PROGMEM = { endp1, endp2, endp3, endp4 };
-// The following should define strings you need to construct your responses (meta is for metadata, you can define them also for observations)
+// TODO: the following should define strings you need to construct your responses (meta is for metadata, but you can define some for observations too)
 //const char* const meta_table[] PROGMEM = { meta1, meta2, meta3 };
 
 int keyIndex = 0; // your network key Index number (needed only for WEP)
@@ -60,6 +61,8 @@ const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of th
 byte packetBuffer[NTP_PACKET_SIZE]; // buffer to hold incoming and outgoing NTP packets
 WiFiUDP Udp; // A UDP instance to send and receive packets over UDP
 
+
+// TODO: change to your network configuration
 IPAddress noipserver(8,23,224,120); // No-IP
 IPAddress localaddr(192,168,1,50); // Local IP
 IPAddress gateaddr(192,168,1,1); // Gateway IP
@@ -129,6 +132,7 @@ void loop() {
   if (millis() - timegone >  120000) {
     Serial.println(F("Updating dynamic DNS..."));
     if (clientDNS.connect(noipserver, 80)) {
+      // TODO: change hostname and credentials for NO-IP
       clientDNS.println(F("GET /nic/update?hostname=myhostname HTTP/1.0"));
       clientDNS.println(F("Host: dynupdate.no-ip.com"));
       clientDNS.println(F("Authorization: Basic encodedauthstring"));
@@ -201,7 +205,7 @@ void loop() {
             //Serial.println(F("Body size:"));
             //Serial.println(cl);
             bi = 0;
-            if (cl == 0) { // If content length is zero, then request is ended
+            if (cl == 0) { // If content length is zero, then request has ended
               answer(path, httpMethod, ct, data, client);
               break;
             }
@@ -368,6 +372,8 @@ int getMetadata(char *body, WiFiClient client)
   char tosend[1000];
   char buf[MAX_BUF + 1]; // On each client.print a max of 90 bytes is allowed
 
+  tosend[0] = '\0';
+  // TODO: Fill "tosend" with the response body"
   //strcpy_P(tosend, (char *) pgm_read_word(&(meta_table[0])));
 
   // send a standard http response header
@@ -402,6 +408,8 @@ int getSensorMetadata(char *body, WiFiClient client)
   char tosend[1000];
   char buf[MAX_BUF + 1]; // On each client.print a max of 90 bytes is allowed
 
+  tosend[0] = '\0';
+  // TODO: Fill "tosend" with the response body"
   //strcpy_P(tosend, (char *) pgm_read_word(&(meta_table[1])));
 
   // send a standard http response header
@@ -436,6 +444,8 @@ int getServiceMetadata(char *body, WiFiClient client)
   char tosend[1000];
   char buf[MAX_BUF + 1]; // On each client.print a max of 90 bytes is allowed
 
+  tosend[0] = '\0';
+  // TODO: Fill "tosend" with the response body"
   //strcpy_P(tosend, (char *) pgm_read_word(&(meta_table[2])));
 
   // send a standard http response header
@@ -477,10 +487,9 @@ int getObservation(char *body, WiFiClient client)
 
   fail = 0;
 
-  // Determine whether temperature or humidity have been requested
   property = -1;
   request = String(body);
-  // Look for a valid property in the request body and set the "property" variable accordingly
+  // TODO: look for a valid property in the request body and set the "property" variable accordingly
   if (property == -1) {
     client.print(buf);
     // send a standard http response header
@@ -524,7 +533,8 @@ int getObservation(char *body, WiFiClient client)
     epoch = secsSince1900 - seventyYears;
     setTime(epoch);
 
-    // Fill "finresp" with the reponse data
+    finresp = "";
+    // TODO: fill "finresp" with the reponse data
 
     // The following is to construct a timestamp
     /*finresp.concat(year());
@@ -549,8 +559,6 @@ int getObservation(char *body, WiFiClient client)
       finresp.concat(F("0"));
     finresp.concat(second());
     finresp.concat(F("+00:00"));*/
-
-    finresp.concat(F(" ]"));
 
     len = finresp.length();
 
